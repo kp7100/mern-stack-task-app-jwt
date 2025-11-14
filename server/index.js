@@ -8,10 +8,22 @@ const taskRouter = require("./routes/task-routes");
 require("./database");
 const app = express();
 
+const FRONTEND_ORIGIN = "https://mern-stack-task-app-jwt.vercel.app";
+
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: FRONTEND_ORIGIN,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Accept", "X-Requested-With"],
+    maxAge: 86400,
+  })
+);
+
+app.options(
+  "*",
+  cors({
+    origin: FRONTEND_ORIGIN,
     credentials: true,
   })
 );
