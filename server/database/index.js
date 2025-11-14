@@ -1,8 +1,14 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+require('dotenv').config({ path: '.env.local' });
+
+// Load MongoDB URI from .env.local
+const mongoUri = process.env.MONGO_URI;
+
+if (!mongoUri) {
+  console.error('MONGO_URI is missing. Add it inside .env.local');
+}
 
 mongoose
-  .connect(
-    "mongodb+srv://krishanpareek996_db_user:krishanpareek997@cluster0.up77qdy.mongodb.net/"
-  )
-  .then(() => console.log("MongoDB Connection successfull"))
-  .catch((error) => console.log(`Error occured: ${error}`));
+  .connect(mongoUri)
+  .then(() => console.log('MongoDB Connection successful'))
+  .catch((error) => console.log(`Error occurred: ${error}`));
