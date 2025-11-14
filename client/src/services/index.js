@@ -1,6 +1,10 @@
 import axios from "axios";
 const API = process.env.REACT_APP_API_URL || 'https://mern-stack-task-app-jwt.onrender.com';
-console.log('REACT_APP_API_URL at runtime ->', process.env.REACT_APP_API_URL);
+console.log('API used at runtime ->', API);
+
+// ensure axios sends cookies and uses the correct base URL
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = API;
 
 export const callRegisterUserApi = async (formData) => {
   const response = await axios.post(
