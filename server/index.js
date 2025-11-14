@@ -17,15 +17,11 @@ const FRONTEND_ORIGINS = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin (like mobile apps, curl)
       if (!origin) return callback(null, true);
       if (FRONTEND_ORIGINS.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
-        // for debugging, allow other origins by echoing them back
-        // comment the next line to reject unknown origins
         callback(null, origin);
-        // to reject unknown origins, use: callback(new Error('Not allowed by CORS'));
       }
     },
     credentials: true,
@@ -35,7 +31,6 @@ app.use(
   })
 );
 
-// ensure preflight is handled
 app.options('*', cors({ origin: FRONTEND_ORIGINS, credentials: true }));
 
 app.use(cookieParser());
@@ -44,8 +39,21 @@ app.use(express.json());
 app.use("/api/user", userRouter);
 app.use("/api/task", taskRouter);
 
+// Basic API test
 app.use("/api", (req, res) => {
   res.status(200).json({ message: "Hello Express" });
 });
 
-app.listen(4000, () => console.log(`App is now running at port 4000...`));
+// Root endpoint
+app.get('/', (req, res) => {
+  res.status(200).json({ status: 'ok', message: 'API is running. Use /api/... endpoints.' });
+});
+
+// Health check
+app.get('/health', (req, res) => {
+  res.status(200).send('ok');
+});
+
+// PORT for Render
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log(`App is now running at port ${PORT}...`));
