@@ -63,8 +63,11 @@ const registerUser = async (req, res, next) => {
 
         // Set the token as a cookie in the response
         res.cookie("token", token, {
-          withCredentials: true,
-          httpOnly: false,
+          httpOnly: true,
+          secure: true,
+          sameSite: 'none',
+          path: '/',
+          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
 
         // Send success response with user data
@@ -130,8 +133,11 @@ const loginUser = async (req, res, next) => {
     const token = generateToken(getUser?._id);
     // Set the token as a cookie in the response
     res.cookie("token", token, {
-      withCredentials: true,
-      httpOnly: false,
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
     // Send success response for login
@@ -155,8 +161,11 @@ const loginUser = async (req, res, next) => {
 const logout = async (req, res) => {
   // Clear the authentication token cookie
   res.cookie("token", "", {
-    withCredentials: true,
-    httpOnly: false,
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    path: '/',
+    expires: new Date(0),
   });
 
   return res.status(200).json({
