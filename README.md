@@ -41,3 +41,6 @@ https://mern-stack-task-app-jwt.vercel.app
 **Backend API:**  
 https://mern-stack-task-app-jwt.onrender.com
 
+⚠️ Note
+The backend is hosted on a free Render instance, so it may take 20–60 seconds to wake up after periods of inactivity.
+
